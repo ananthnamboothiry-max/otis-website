@@ -1,0 +1,46 @@
+---
+import { marquee } from "../data/content";
+
+// Repeat phrases enough times to fill the strip on wide screens with no visible gap.
+const repeated = Array.from({ length: 4 }).flatMap(() => marquee.phrases);
+---
+
+<section
+  aria-hidden="true"
+  class="marquee relative w-full overflow-hidden border-y border-outline-variant bg-surface-container-low/60"
+>
+  <div class="marquee__track flex gap-12 whitespace-nowrap py-md font-display italic text-on-surface/85 text-[28px] md:text-[36px] tracking-tight">
+    {
+      repeated.map((phrase) => (
+        <span class="inline-flex items-center gap-12">
+          <span>{phrase}</span>
+          <span class="text-primary/70 select-none" aria-hidden="true">
+            ✦
+          </span>
+        </span>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .marquee__track {
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
+</style>

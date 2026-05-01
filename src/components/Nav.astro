@@ -1,0 +1,47 @@
+---
+import { nav, site } from "../data/content";
+---
+
+<nav
+  data-nav
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-500
+         data-[scrolled=true]:bg-surface/85 data-[scrolled=true]:backdrop-blur-md
+         data-[scrolled=true]:border-b data-[scrolled=true]:border-outline-variant/60"
+>
+  <div
+    class="flex justify-between items-center w-full px-margin py-md max-w-screen-2xl mx-auto"
+  >
+    <a
+      href="/"
+      class="font-sans text-base font-bold tracking-[0.2em] text-white data-[scrolled=true]:text-on-surface hover:text-primary transition-colors"
+      data-scrolled-mirror
+    >
+      {site.brand}
+    </a>
+
+    <div class="hidden md:flex gap-lg items-center">
+      {
+        nav.links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "font-sans text-[11px] uppercase tracking-[0.2em] transition-colors duration-300",
+              link.active
+                ? "text-on-surface border-b border-primary pb-1"
+                : "text-on-surface-variant hover:text-on-surface",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href={nav.cta.href}
+      class="bg-primary text-on-primary font-sans text-[11px] uppercase tracking-[0.18em] font-semibold px-md py-sm hover:bg-surface-tint transition-colors"
+    >
+      {nav.cta.label}
+    </a>
+  </div>
+</nav>

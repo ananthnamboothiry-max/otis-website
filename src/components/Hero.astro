@@ -1,0 +1,117 @@
+---
+import { hero, site } from "../data/content";
+---
+
+<header
+  class="relative w-full h-screen min-h-[680px] overflow-hidden"
+>
+  <!-- Video layer with subtle ken-burns + scroll parallax -->
+  <div class="absolute inset-0 z-0 bg-inverse-surface">
+    <!-- Parallax wrapper (JS-driven translate) -->
+    <div data-hero-parallax class="absolute inset-0 will-change-transform">
+      <!-- Ken-burns inner (CSS-driven scale) wraps the video -->
+      <div class="hero-video-wrap w-full h-[115%] -mt-[7.5%]">
+        <video
+          class="w-full h-full object-cover"
+          src={hero.video.src}
+          poster={hero.video.poster}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-label={hero.video.alt}
+        ></video>
+      </div>
+    </div>
+    <!-- Bottom-only floor wash to keep type legible without darkening the whole frame -->
+    <div
+      class="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-inverse-surface/70 via-inverse-surface/15 to-transparent"
+    >
+    </div>
+    <!-- Subtle top-down wash for nav legibility -->
+    <div
+      class="absolute inset-x-0 top-0 h-[24%] bg-gradient-to-b from-inverse-surface/30 to-transparent"
+    >
+    </div>
+  </div>
+
+  <!-- Top corner marks: established + coordinates -->
+  <div
+    class="absolute top-[88px] left-margin right-margin z-10 hidden md:flex justify-between items-center font-sans text-[10px] uppercase tracking-[0.28em] text-surface-container-low/70"
+  >
+    <span>{site.established}</span>
+    <span>40.0150° N · 105.2705° W</span>
+  </div>
+
+  <!-- Bottom-left copy block — anchored close to the floor of the video -->
+  <div
+    class="absolute z-10 bottom-md md:bottom-[40px] left-margin right-margin md:right-auto md:max-w-[640px] flex flex-col items-start text-left"
+  >
+    <span
+      class="reveal reveal-delay-1 font-sans text-[10px] md:text-[11px] uppercase tracking-[0.32em]
+             text-surface-container-low/95 mb-xs flex items-center"
+    >
+      <span
+        class="inline-block w-8 h-px bg-surface-container-low/60 mr-3"
+      ></span>
+      {hero.eyebrow}
+    </span>
+
+    <h1
+      class="reveal reveal-delay-2 font-display text-white
+             text-[36px] sm:text-[48px] md:text-[60px] leading-[0.96] tracking-[-0.02em] font-medium
+             uppercase"
+    >
+      {hero.title}
+    </h1>
+  </div>
+</header>
+
+<style>
+  .hero-video-wrap {
+    animation: ken-burns 22s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes ken-burns {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video-wrap {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  // Parallax: shift the hero video wrapper down as the user scrolls past it.
+  (() => {
+    const wrap = document.querySelector("[data-hero-parallax]");
+    if (!wrap) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let ticking = false;
+    const update = () => {
+      const y = Math.min(window.scrollY, 900);
+      wrap.style.transform = `translate3d(0, ${y * 0.2}px, 0)`;
+      ticking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  })();
+</script>

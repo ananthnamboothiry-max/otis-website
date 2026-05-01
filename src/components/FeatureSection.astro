@@ -1,0 +1,217 @@
+---
+import type { Feature } from "../data/content";
+
+interface Props {
+  feature: Feature;
+}
+
+const { feature } = Astro.props;
+---
+
+{
+  /* ----------------------------------------------------------------
+     Variant A: WATERMARK
+     7/5 grid with an oversized index numeral set behind the copy block.
+     ---------------------------------------------------------------- */
+}
+{
+  feature.variant === "watermark" && (
+    <section class="scroll-fade relative grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch border-t border-outline-variant pt-xl">
+      {/* Image */}
+      <div class="reveal-image relative md:col-span-6 md:order-1 h-full min-h-[360px] md:min-h-[420px] overflow-hidden">
+        <img
+          class:list={[
+            "w-full h-full object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.03]",
+            feature.image.filterClass,
+          ]}
+          src={feature.image.src}
+          alt={feature.image.alt}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      {/* Copy */}
+      <div class="relative md:col-span-6 md:order-2 md:border-l md:border-outline-variant md:pl-8 flex flex-col justify-center py-4">
+        <span
+          aria-hidden="true"
+          class="pointer-events-none absolute -top-6 -left-2 md:left-2 font-display text-primary/[0.08] text-[180px] md:text-[260px] leading-none tracking-tighter select-none"
+        >
+          {feature.index}
+        </span>
+        <span class="relative font-sans text-[11px] text-secondary uppercase tracking-[0.18em] mb-xs">
+          {feature.index} / {feature.category}
+        </span>
+        <h2 class="relative font-display text-h2 md:text-[44px] text-on-surface mb-sm leading-[1.08]">
+          {feature.title}
+        </h2>
+        <p class="relative font-sans text-body-md text-on-surface-variant mb-md">
+          {feature.body}
+        </p>
+        {feature.cta && (
+          <a
+            href={feature.cta.href}
+            class="group relative font-sans text-[11px] text-primary uppercase tracking-[0.18em] font-semibold inline-flex items-center gap-2 w-max pb-1 border-b border-primary hover:text-surface-tint hover:border-surface-tint transition-colors"
+          >
+            {feature.cta.label}
+            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+              arrow_forward
+            </span>
+          </a>
+        )}
+        {feature.tags && (
+          <div class="relative flex flex-wrap gap-3 mt-sm">
+            {feature.tags.map((tag) => (
+              <span class="tag-chip border border-outline px-3 py-1 font-sans text-[10px] uppercase tracking-[0.18em] font-semibold text-on-surface transition-all duration-300 hover:-translate-y-0.5 hover:bg-on-surface hover:text-surface">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+{
+  /* ----------------------------------------------------------------
+     Variant B: FULLBLEED
+     Full-width image with a copy card overlapping the bottom-left.
+     ---------------------------------------------------------------- */
+}
+{
+  feature.variant === "fullbleed" && (
+    <section class="scroll-fade relative w-full">
+      <div class="relative aspect-[16/9] md:aspect-[16/6] w-full max-w-[1600px] mx-auto overflow-hidden">
+        <img
+          class:list={[
+            "w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.03]",
+            feature.image.filterClass,
+          ]}
+          src={feature.image.src}
+          alt={feature.image.alt}
+          loading="lazy"
+          decoding="async"
+        />
+        {/* corner registration marks */}
+        <span
+          aria-hidden="true"
+          class="absolute top-md left-md w-6 h-6 border-l-2 border-t-2 border-surface-container-low/80"
+        />
+        <span
+          aria-hidden="true"
+          class="absolute top-md right-md w-6 h-6 border-r-2 border-t-2 border-surface-container-low/80"
+        />
+        <span
+          aria-hidden="true"
+          class="absolute bottom-md right-md font-sans text-[10px] uppercase tracking-[0.32em] text-surface-container-low/80"
+        >
+          Frame {feature.index}
+        </span>
+      </div>
+
+      <div class="relative md:-mt-[120px] md:ml-margin md:max-w-2xl bg-surface-container-low border border-outline-variant px-md md:px-lg py-md md:py-lg shadow-[0_24px_60px_-30px_rgba(53,47,45,0.45)]">
+        <div class="flex items-center gap-3 mb-xs">
+          <span class="font-sans text-[11px] text-secondary uppercase tracking-[0.18em]">
+            {feature.index} / {feature.category}
+          </span>
+          <span class="h-px flex-1 bg-outline-variant" aria-hidden="true" />
+        </div>
+        <h2 class="font-display text-h2 md:text-[40px] text-on-surface mb-sm leading-[1.1]">
+          {feature.title}
+        </h2>
+        <p class="font-sans text-body-md text-on-surface-variant mb-md">
+          {feature.body}
+        </p>
+        {feature.cta && (
+          <a
+            href={feature.cta.href}
+            class="group font-sans text-[11px] text-primary uppercase tracking-[0.18em] font-semibold inline-flex items-center gap-2 w-max pb-1 border-b border-primary hover:text-surface-tint hover:border-surface-tint transition-colors mb-sm"
+          >
+            {feature.cta.label}
+            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+              arrow_forward
+            </span>
+          </a>
+        )}
+        {feature.tags && (
+          <div class="flex flex-wrap gap-3">
+            {feature.tags.map((tag) => (
+              <span class="tag-chip border border-outline px-3 py-1 font-sans text-[10px] uppercase tracking-[0.18em] font-semibold text-on-surface transition-all duration-300 hover:-translate-y-0.5 hover:bg-on-surface hover:text-surface">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+{
+  /* ----------------------------------------------------------------
+     Variant C: ASYMMETRIC
+     Copy on left, image on right with thin offset stroke frame; index
+     numeral set as a vertical rotated label between them.
+     ---------------------------------------------------------------- */
+}
+{
+  feature.variant === "asymmetric" && (
+    <section class="scroll-fade relative grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-outline-variant pt-xl pb-xl">
+      {/* Copy */}
+      <div class="md:col-span-6 md:col-start-1 md:order-1 flex flex-col justify-center py-4 md:pr-8">
+        <div class="flex items-baseline gap-3 mb-xs">
+          <span class="font-display text-primary text-[56px] leading-none">
+            {feature.index}
+          </span>
+          <span class="font-sans text-[11px] text-secondary uppercase tracking-[0.22em]">
+            / {feature.category}
+          </span>
+        </div>
+        <h2 class="font-display text-h2 md:text-[48px] text-on-surface mb-sm leading-[1.06]">
+          {feature.title}
+        </h2>
+        <p class="font-sans text-body-md text-on-surface-variant mb-md">
+          {feature.body}
+        </p>
+        {feature.cta && (
+          <a
+            href={feature.cta.href}
+            class="group font-sans text-[11px] text-primary uppercase tracking-[0.18em] font-semibold inline-flex items-center gap-2 w-max pb-1 border-b border-primary hover:text-surface-tint hover:border-surface-tint transition-colors"
+          >
+            {feature.cta.label}
+            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+              arrow_forward
+            </span>
+          </a>
+        )}
+      </div>
+
+      {/* Image with offset stroke frame */}
+      <div class="md:col-span-6 md:order-2 relative">
+        <span
+          aria-hidden="true"
+          class="hidden md:block absolute -top-3 -left-3 right-6 bottom-6 border border-primary/60"
+        />
+        <div class="relative h-full min-h-[340px] md:min-h-[400px] overflow-hidden">
+          <img
+            class:list={[
+              "w-full h-full object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.03]",
+              feature.image.filterClass,
+            ]}
+            src={feature.image.src}
+            alt={feature.image.alt}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <span
+          aria-hidden="true"
+          class="hidden md:block absolute top-1/2 -right-2 -translate-y-1/2 rotate-90 origin-right font-sans text-[10px] uppercase tracking-[0.32em] text-on-surface-variant"
+        >
+          Frame {feature.index} · Foundation
+        </span>
+      </div>
+    </section>
+  )
+}

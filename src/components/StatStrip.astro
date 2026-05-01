@@ -1,0 +1,101 @@
+---
+import { ledger } from "../data/content";
+---
+
+<section
+  id="ledger"
+  class="scroll-fade relative w-full border-y border-outline-variant bg-secondary text-inverse-on-surface overflow-hidden"
+>
+  <!-- subtle radial glow for depth without imagery -->
+  <div
+    class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(255,255,255,0.04),transparent_60%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative max-w-screen-2xl mx-auto px-margin py-xl">
+    <div class="flex items-baseline justify-between gap-md mb-lg flex-wrap">
+      <span class="font-sans text-[11px] uppercase tracking-[0.28em] text-inverse-primary">
+        {ledger.eyebrow}
+      </span>
+      <span class="font-sans text-[10px] uppercase tracking-[0.28em] text-inverse-on-surface/55">
+        Industry · 2024 figures
+      </span>
+    </div>
+
+    <ul class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
+      {
+        ledger.stats.map((stat, i) => (
+          <li class="relative flex flex-col gap-2 md:border-l md:border-inverse-on-surface/15 md:pl-6 md:first:border-l-0 md:first:pl-0">
+            <span class="font-display text-inverse-on-surface text-[44px] md:text-[64px] leading-[0.95] tracking-tight whitespace-nowrap"
+              ><span class="text-inverse-primary">{stat.prefix ?? ""}</span><span
+                class="counter tabular-nums"
+                data-value={stat.value}
+                data-decimals={stat.decimals ?? 0}
+                data-stagger={i}
+              >0</span><span class="text-inverse-primary">{stat.suffix ?? ""}</span></span>
+            <span class="font-sans text-[10px] uppercase tracking-[0.22em] text-inverse-on-surface/70 font-semibold">
+              {stat.label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const counters = document.querySelectorAll(".counter");
+    if (!counters.length) return;
+
+    const fmt = (val, decimals) =>
+      decimals > 0
+        ? val.toLocaleString(undefined, {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+          })
+        : Math.round(val).toLocaleString();
+
+    if (reduceMotion) {
+      counters.forEach((el) => {
+        const target = parseFloat(el.dataset.value);
+        const decimals = parseInt(el.dataset.decimals, 10) || 0;
+        el.textContent = fmt(target, decimals);
+      });
+      return;
+    }
+
+    const animate = (el) => {
+      const target = parseFloat(el.dataset.value);
+      const decimals = parseInt(el.dataset.decimals, 10) || 0;
+      const stagger = parseInt(el.dataset.stagger, 10) || 0;
+      const duration = 1400;
+      const start = performance.now() + stagger * 120;
+      const tick = (now) => {
+        const elapsed = Math.max(0, now - start);
+        const t = Math.min(1, elapsed / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = fmt(target * eased, decimals);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    counters.forEach((c) => io.observe(c));
+  })();
+</script>

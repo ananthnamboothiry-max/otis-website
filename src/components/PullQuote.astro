@@ -1,0 +1,26 @@
+---
+import { pullQuote } from "../data/content";
+---
+
+<section
+  class="scroll-fade w-full max-w-screen-2xl mx-auto px-margin py-xl border-y border-outline-variant"
+>
+  <div class="grid grid-cols-12 gap-8 items-start">
+    <span
+      aria-hidden="true"
+      class="hidden md:block col-span-2 font-display text-primary/30 text-[110px] leading-[0.8] -mt-1 select-none"
+    >
+      &ldquo;
+    </span>
+    <blockquote class="col-span-12 md:col-span-9">
+      <p
+        class="font-display text-on-surface text-[28px] md:text-[40px] leading-[1.1] tracking-tight font-medium"
+      >
+        {pullQuote.text}
+      </p>
+      <footer class="mt-md font-sans text-[11px] uppercase tracking-[0.22em] text-on-surface-variant">
+        — {pullQuote.attribution}
+      </footer>
+    </blockquote>
+  </div>
+</section>

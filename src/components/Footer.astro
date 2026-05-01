@@ -1,0 +1,82 @@
+---
+import { footer, site, contactEmails } from "../data/content";
+---
+
+<footer
+  id="contact"
+  class="bg-surface-container-low border-t border-outline-variant w-full"
+>
+  <!-- Contact row -->
+  <div
+    class="max-w-screen-2xl mx-auto px-margin py-xl grid grid-cols-1 md:grid-cols-12 gap-md md:gap-8 items-start"
+  >
+    <div class="md:col-span-5">
+      <span
+        class="block font-sans text-[10px] uppercase tracking-[0.28em] text-primary font-semibold mb-2"
+      >
+        {footer.contact.eyebrow}
+      </span>
+      <p
+        class="font-display text-on-surface text-[24px] md:text-[28px] leading-[1.15] tracking-tight max-w-md"
+      >
+        {footer.contact.body}
+      </p>
+    </div>
+    <ul
+      class="md:col-span-7 md:col-start-6 flex flex-col gap-2 md:border-l md:border-outline-variant md:pl-8"
+    >
+      {
+        contactEmails.map((email) => (
+          <li>
+            <a
+              href={`mailto:${email}`}
+              class="group inline-flex items-center gap-3 font-sans text-[13px] md:text-[14px] text-on-surface hover:text-primary transition-colors"
+            >
+              <span
+                class="material-symbols-outlined text-[14px] text-on-surface-variant group-hover:text-primary transition-colors"
+              >
+                mail
+              </span>
+              <span class="border-b border-transparent group-hover:border-primary tracking-tight">
+                {email}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <!-- Brand + copyright row -->
+  <div class="border-t border-outline-variant">
+    <div
+      class="max-w-screen-2xl mx-auto px-margin py-md flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+    >
+      <div class="flex items-baseline gap-3">
+        <span
+          class="font-sans text-base font-bold tracking-[0.2em] text-on-surface"
+        >
+          {site.brand}
+        </span>
+        <span class="font-display italic text-on-surface-variant text-[16px]">
+          {site.tagline}.
+        </span>
+      </div>
+      <p
+        class="font-sans text-[10px] uppercase tracking-[0.22em] font-semibold text-on-surface-variant"
+      >
+        {site.copyright}
+      </p>
+    </div>
+  </div>
+
+  <!-- Wordmark band — fully visible, no clipping -->
+  <div class="border-t border-outline-variant">
+    <div
+      aria-hidden="true"
+      class="font-display text-on-surface/[0.08] text-[15vw] leading-[0.95] tracking-[-0.04em] text-center select-none uppercase pt-[2.5vw] pb-[0.5vw]"
+    >
+      Otis Labs
+    </div>
+  </div>
+</footer>

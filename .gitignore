@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+.DS_Store
+.env
+.env.*
+!.env.example
+
+.screenshots/
+
+# Claude Code local-only settings
+.claude/settings.local.json

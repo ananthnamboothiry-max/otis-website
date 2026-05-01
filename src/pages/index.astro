@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import FeatureSection from "../components/FeatureSection.astro";
+import StatStrip from "../components/StatStrip.astro";
+import PullQuote from "../components/PullQuote.astro";
+import Footer from "../components/Footer.astro";
+import { features } from "../data/content";
+---
+
+<Base>
+  <Nav />
+  <Hero />
+
+  <main class="w-full">
+    <!-- Feature 01 — watermark variant — constrained gutters -->
+    <div id="detection" class="scroll-mt-24 max-w-screen-2xl mx-auto px-gutter md:px-margin pt-xl">
+      <FeatureSection feature={features[0]} />
+    </div>
+
+    <!-- Feature 02 — full-bleed variant — sits flush, then card overlaps -->
+    <div class="mt-xl">
+      <FeatureSection feature={features[1]} />
+    </div>
+
+    <!-- Stat strip — dark band breaks the page rhythm -->
+    <div class="mt-xl">
+      <StatStrip />
+    </div>
+
+    <!-- Editorial pull-quote -->
+    <PullQuote />
+
+    <!-- Feature 03 — asymmetric variant -->
+    <div class="max-w-screen-2xl mx-auto px-gutter md:px-margin">
+      <FeatureSection feature={features[2]} />
+    </div>
+  </main>
+
+  <Footer />
+</Base>
