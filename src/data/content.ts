@@ -2,7 +2,7 @@ export const site = {
   brand: "OTIS LABS",
   tagline: "Closed-Loop Mastitis Defense",
   copyright: "© 2026 OTIS LABS. ALL RIGHTS RESERVED. BUILT FOR THE PARLOR.",
-  established: "EST. 2024",
+  established: "EST. 2026",
 };
 
 export const contactEmails = [
